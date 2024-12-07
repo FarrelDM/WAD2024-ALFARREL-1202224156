@@ -49,7 +49,7 @@ class LecturerController extends Controller
     public function show(string $id)
     {
         $lecturers = Lecturer::findOrFail($id);
-        return view('lecturers.show', compact('lecturer'));
+        return view('lecturers.show', compact('lecturers'));
     }
 
     /**
@@ -57,8 +57,8 @@ class LecturerController extends Controller
      */
     public function edit($id)
     {
-        $lecturer = Lecturer::findOrFail($id);
-        return view('lecturers.edit', compact('lecturer'));
+        $lecturers = Lecturer::findOrFail($id);
+        return view('lecturers.edit', compact('lecturers'));
     }
 
     /**
@@ -66,17 +66,17 @@ class LecturerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $lecturer = Lecturer::findOrFail($id);
+        $lecturers = Lecturer::findOrFail($id);
 
         $validatedData = $request->validate([
-            'lecturers_code' => 'required|string|max:3|unique:lecturers,lecturers_code,' . $lecturer->id,
+            'lecturers_code' => 'required|string|max:3|unique:lecturers,lecturers_code,' . $lecturers->id,
             'lecturers_name' => 'required|string',
-            'nip' => 'required|string|unique:lecturers,nip,' . $lecturer->id,
-            'email' => 'required|email|unique:lecturers,email,' . $lecturer->id,
+            'nip' => 'required|string|unique:lecturers,nip,' . $lecturers->id,
+            'email' => 'required|email|unique:lecturers,email,' . $lecturers->id,
             'telephone_number' => 'required|string',
         ]);
 
-        $lecturer->update($validatedData);
+        $lecturers->update($validatedData);
 
         return redirect()->route('lecturers.index')->with('success', 'Lecturer updated successfully!');
     }
